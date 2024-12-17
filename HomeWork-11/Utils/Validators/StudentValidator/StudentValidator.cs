@@ -22,6 +22,7 @@ namespace HomeWork_12.Utils.Validators.StudentValidator
                     NameValidator.NameValidator.CheckName(surname) &&
                     EmailValidator.EmailValidator.CheckEmail(email) &&
                     CheckUniversities(studentUniversity, universities) &&
+                    PasswordValidator.PasswordValidator.CheckPassword(password);
             }
             catch (Exception ex)
             {
