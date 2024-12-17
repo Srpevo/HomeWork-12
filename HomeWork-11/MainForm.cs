@@ -63,7 +63,7 @@ namespace HomeWork_11
             {
                 try
                 {
-                    UiTools.AddToList(objectBox, JsonTools.ToObj<University>(FileExplorer.GetPath()));
+                    UiTools.AddToList(objectBox, JsonTools.ToObj<IEnumerable<University>>(FileExplorer.GetPath()));
                 }
                 catch (Exception ex)
                 {

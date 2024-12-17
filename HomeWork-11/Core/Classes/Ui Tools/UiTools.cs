@@ -1,4 +1,5 @@
 ﻿using HomeWork_12.Core.Enums.Adjust_Visibility_Options;
+using System.Collections;
 using System.Reflection;
 
 namespace HomeWork_12.Core.Classes.Ui_Tools
@@ -25,26 +26,39 @@ namespace HomeWork_12.Core.Classes.Ui_Tools
             PropertyInfo[] props = itemType.GetProperties();
 
             listBox.Items.Add($"<{itemType.Name}>");
+
             foreach (var prop in props)
             {
-                listBox.Items.Add($"{prop.Name}: {prop.GetValue(obj)}");
+                var value = prop.GetValue(obj);
+                if (value is IEnumerable enumerable && value.GetType() != typeof(string))
+                {
+                    listBox.Items.Add($"{prop.Name}: [List]");
+
+                    
+                    foreach (var subItem in enumerable)
+                        AddObjectToListBox(listBox, subItem); 
+                }
+                else
+                    listBox.Items.Add($"{prop.Name}: {value}");
             }
+
             listBox.Items.Add($"<{itemType.Name}//>");
         }
 
-        public static void AddToList<T>(ListBox listBox, IEnumerable<T> list) where T : class
-        {
-            if (list == null) return;
-
-            foreach(var item in list)
-                AddObjectToListBox(listBox, item);
-        }
 
         public static void AddToList<T>(ListBox listBox, T obj) where T : class
         {
             AddObjectToListBox(listBox, obj);
         }
 
+        public static void AddToList<T>(ListBox listBox, IEnumerable<T> list) where T : class
+        {
+            if (list == null) return;
+
+            foreach (var item in list)
+        
+                AddObjectToListBox(listBox, item);
+        }
 
         public static void ChangeType<Tenum>(ref ComboBox comboBox, out Tenum @enum) where Tenum : struct, Enum
         { 
